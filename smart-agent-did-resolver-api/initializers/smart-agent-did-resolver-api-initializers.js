@@ -62,8 +62,8 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
             web3,
           },
           {
-            activeIdentity: await verifications.getIdentityForAccount("0x46610b67Eb8a11bC8BD5EB935F42963BB047e4d5", true), //TODO from parameter
-            underlyingAccount: "0x46610b67Eb8a11bC8BD5EB935F42963BB047e4d5",
+            activeIdentity: await verifications.getIdentityForAccount(this.config.ethAccount, true), //TODO from parameter
+            underlyingAccount: this.config.ethAccount,
             underlyingSigner,
           }
         );
