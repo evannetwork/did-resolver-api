@@ -24,7 +24,6 @@ class SmartAgentDidResolverApiResolve extends Action {
   async run ({ params, response }) {
     try {
       response.did = await api.smartAgentDidResolverApi.resolveDid(params.did)
-      response.status = 'success'
     } catch (ex) {
       api.log(ex)
       response.status = 'error'

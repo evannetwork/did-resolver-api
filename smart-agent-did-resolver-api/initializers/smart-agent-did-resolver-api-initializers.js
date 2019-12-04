@@ -5,11 +5,12 @@ const {
   Initializer
 } = require('actionhero')
 
-const evan = require('evan-did-resolver')
-
 const {
-  Resolver
-} = require('did-resolver')
+  DidResolver,
+  ContractLoader,
+  SignerInternal,
+  SignerIdentity
+} = require('@evan.network/api-blockchain-core')
 
 module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
   constructor () {
@@ -32,11 +33,42 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
       }
 
       async resolveDid(did) {
-        const resolver = new Resolver(evan.getResolver())
-        return api.config.eth.nameResolver
-        //const didDocument = resolver.resolve(did)
+        const signerIdentity = this.retrieveSignerIdentity()
+        const resolver = new DidResolver({
+          ...this.runtime, signerIdentity
+        })
+        return resolver.getDidDocument(did)
+      }
 
-        //return didDocument
+      async retrieveSignerIdentity() {
+        const web3 = this.runtime.web3
+
+        const contracts = await this.runtime.contracts;
+        const contractLoader =  new ContractLoader({
+          contracts,
+          web3,
+        });
+        const accountStore = this.runtime.accountStore;
+        const verifications = this.runtime.verifications;
+        const underlyingSigner = new SignerInternal({
+          accountStore,
+          contractLoader,
+          config: {},
+          web3,
+        });
+        const signer = new SignerIdentity({
+            contractLoader,
+            verifications,
+            web3,
+          },
+          {
+            activeIdentity: await verifications.getIdentityForAccount("0x46610b67Eb8a11bC8BD5EB935F42963BB047e4d5", true), //TODO from parameter
+            underlyingAccount: "0x46610b67Eb8a11bC8BD5EB935F42963BB047e4d5",
+            underlyingSigner,
+          }
+        );
+
+        return signer
       }
     }
 
