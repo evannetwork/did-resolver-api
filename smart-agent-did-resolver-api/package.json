@@ -1,7 +1,7 @@
 {
-  "name": "smart-agent-did-resolver-api",
-  "description": "Resolving DIDs",
-  "version": "0.0.1",
+  "name": "@evan.network/did-resolver-smart-agent",
+  "description": "Smart agent for accepting requests to resolve DIDs on the evan network",
+  "version": "1.0.0",
   "author": "evan GmbH",
   "engines": {
     "node": ">=10.0.0"
