@@ -1,10 +1,10 @@
 'use strict'
 const { Action, api } = require('actionhero')
 
-class SmartAgentDidResolverApiResolv1 extends Action {
+class SmartAgentDidResolverApiResolve extends Action {
   constructor () {
     super()
-    this.name = '/resolve/:did'
+    this.name = 'resolve/:did'
     this.description = 'Resolve DIDs to DID documents'
     this.inputs = {
       did: { required: true }
