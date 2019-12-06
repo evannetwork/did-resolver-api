@@ -8,3 +8,4 @@ package-lock.json.*
 package-lock.json
 docs/_build/*
 .DS_Store
+node_modules

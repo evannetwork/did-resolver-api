@@ -4,7 +4,7 @@ const { Action, api } = require('actionhero')
 class SmartAgentDidResolverApiResolve extends Action {
   constructor () {
     super()
-    this.name = 'resolve/:did'
+    this.name = 'smart-agents/smart-agent-did-resolver/did/get/:did'
     this.description = 'Resolve DIDs to DID documents'
     this.inputs = {
       did: { required: true }
@@ -26,5 +26,4 @@ class SmartAgentDidResolverApiResolve extends Action {
 
 module.exports = {
   SmartAgentDidResolverApi: SmartAgentDidResolverApiResolve
-
 }
