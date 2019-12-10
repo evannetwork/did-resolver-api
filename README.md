@@ -3,6 +3,7 @@ This project implements a DID resolving REST api for evan.network.
 It allows you to query the evan.network for DID documents, providing a valid evan DID.
 In order to receive a DID, you have to send a `GET` request to the resolver endpoint at
 
+
 `https://agents.test.evan.network/api/smart-agents/smart-agent-did-resolver/did/get/:did`
 
 where `:did` resembles a valid DID.
