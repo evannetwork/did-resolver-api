@@ -60,8 +60,7 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
             contractLoader,
             verifications,
             web3,
-          },
-          {
+          }, {
             activeIdentity: await verifications.getIdentityForAccount(this.config.ethAccount, true),
             underlyingAccount: this.config.ethAccount,
             underlyingSigner,
