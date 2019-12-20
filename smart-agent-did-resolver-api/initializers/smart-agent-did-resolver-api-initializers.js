@@ -47,7 +47,7 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
        * @return     {Promise<any>}  vc document
        */
       async resolveVc (vc) {
-        return this.runtime.vc.getVC(vc)
+        return this.runtime.vc.getVc(vc)
       }
     }
 
