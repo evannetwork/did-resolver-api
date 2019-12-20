@@ -9,3 +9,5 @@ package-lock.json
 docs/_build/*
 .DS_Store
 node_modules
+smart-agent-did-resolver-api/yarn.lock
+yarn.lock

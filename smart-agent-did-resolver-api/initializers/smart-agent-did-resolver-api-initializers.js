@@ -9,7 +9,8 @@ const {
   DidResolver,
   ContractLoader,
   SignerInternal,
-  SignerIdentity
+  SignerIdentity,
+  VcResolver
 } = require('@evan.network/api-blockchain-core')
 
 module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
@@ -38,6 +39,14 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
           ...this.runtime, signerIdentity
         })
         return resolver.getDidDocument(did)
+      }
+
+      async resolveVc(vc) {
+        const signerIdentity = this.retrieveSignerIdentity()
+        const resolver = new VcResolver({
+          ...this.runtime, signerIdentity
+        })
+        return resolver.getVC(vc)
       }
 
       async retrieveSignerIdentity() {
