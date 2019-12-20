@@ -12,7 +12,7 @@ class SmartAgentDidResolverDidGet extends Action {
     this.outputExample = { }
   }
 
-  async run ({params: { did }, response}) {
+  async run ({ params: { did }, response }) {
     try {
       response.did = await api.smartAgentDidResolverApi.resolveDid(did)
       response.status = 'success'
@@ -35,7 +35,7 @@ class SmartAgentDidResolverVcGet extends Action {
     this.outputExample = { }
   }
 
-  async run ({params: { vc }, response}) {
+  async run ({ params: { vc }, response }) {
     try {
       response.vc = await api.smartAgentDidResolverApi.resolveVc(vc)
       response.status = 'success'
@@ -49,5 +49,5 @@ class SmartAgentDidResolverVcGet extends Action {
 
 module.exports = {
   SmartAgentDidResolverDidGet,
-  SmartAgentDidResolverVcGet,
+  SmartAgentDidResolverVcGet
 }
