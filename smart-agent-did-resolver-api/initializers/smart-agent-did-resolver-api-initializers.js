@@ -6,11 +6,11 @@ const {
 } = require('actionhero')
 
 const {
-  DidResolver,
+  Did,
   ContractLoader,
   SignerInternal,
   SignerIdentity,
-  VcResolver
+  Vc
 } = require('@evan.network/api-blockchain-core')
 
 module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
@@ -35,7 +35,7 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
 
       async resolveDid(did) {
         const signerIdentity = this.retrieveSignerIdentity()
-        const resolver = new DidResolver({
+        const resolver = new Did({
           ...this.runtime, signerIdentity
         })
         return resolver.getDidDocument(did)
@@ -43,7 +43,7 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
 
       async resolveVc(vc) {
         const signerIdentity = this.retrieveSignerIdentity()
-        const resolver = new VcResolver({
+        const resolver = new Vc({
           ...this.runtime, signerIdentity
         })
         return resolver.getVC(vc)
