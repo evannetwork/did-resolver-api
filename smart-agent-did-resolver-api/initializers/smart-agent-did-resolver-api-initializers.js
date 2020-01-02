@@ -43,11 +43,20 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
       /**
        * get VC document
        *
-       * @param      {string}        vc      VC id to get document for
+       * @param      {string}        vcId      VC id to get document for
        * @return     {Promise<any>}  vc document
        */
-      async resolveVc (vc) {
-        return this.runtime.vc.getVc(vc)
+      async resolveVc (vcId) {
+        return this.runtime.vc.getVc(vcId)
+      }
+
+      /**
+       * Get status of VC document (active, revoked)
+       * @param {string} vcId VC id to get status for
+       * @return {Promise<string>} Status
+       */
+      async getVcStatus (vcId) {
+        return this.runtime.vc.getRevokeVcStatus(vcId);
       }
     }
 
