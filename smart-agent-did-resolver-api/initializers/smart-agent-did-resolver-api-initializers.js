@@ -5,13 +5,6 @@ const {
   Initializer
 } = require('actionhero')
 
-const {
-  DidResolver,
-  ContractLoader,
-  SignerInternal,
-  SignerIdentity
-} = require('@evan.network/api-blockchain-core')
-
 module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
   constructor () {
     super()
@@ -28,51 +21,48 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
 
     // specialize from blockchain smart agent library
     class SmartAgentDidResolverApi extends api.smartAgents.SmartAgent {
+      /**
+       * initialize smart agent instance and create runtime
+       *
+       * @return     {Promise<void>}   resolved when done
+       */
       async initialize () {
-        await super.initialize()
+        await super.initialize({ useIdentity: true })
       }
 
-      async resolveDid(did) {
-        const signerIdentity = this.retrieveSignerIdentity()
-        const resolver = new DidResolver({
-          ...this.runtime, signerIdentity
-        })
-        return resolver.getDidDocument(did)
+      /**
+       * get DID document
+       *
+       * @param      {string}        did     DID name to get DID document for
+       * @return     {Promise<any>}  DID document
+       */
+      async resolveDid (did) {
+        return this.runtime.did.getDidDocument(did)
       }
 
-      async retrieveSignerIdentity() {
-        const web3 = this.runtime.web3
+      /**
+       * get VC document
+       *
+       * @param      {string}        vcId      VC id to get document for
+       * @return     {Promise<any>}  vc document
+       */
+      async resolveVc (vcId) {
+        return this.runtime.vc.getVc(vcId)
+      }
 
-        const contracts = await this.runtime.contracts;
-        const contractLoader =  new ContractLoader({
-          contracts,
-          web3,
-        });
-        const accountStore = this.runtime.accountStore;
-        const verifications = this.runtime.verifications;
-        const underlyingSigner = new SignerInternal({
-          accountStore,
-          contractLoader,
-          config: {},
-          web3,
-        });
-        const signer = new SignerIdentity({
-            contractLoader,
-            verifications,
-            web3,
-          }, {
-            activeIdentity: await verifications.getIdentityForAccount(this.config.ethAccount, true),
-            underlyingAccount: this.config.ethAccount,
-            underlyingSigner,
-          }
-        );
-
-        return signer
+      /**
+       * Get status of VC document (active, revoked)
+       * @param {string} vcId VC id to get status for
+       * @return {Promise<string>} Status
+       */
+      async getVcStatus (vcId) {
+        return this.runtime.vc.getRevokeVcStatus(vcId);
       }
     }
 
     // start the initialization code
-    const smartAgentDidResolverApi = new SmartAgentDidResolverApi(api.config.smartAgentDidResolverApi)
+    const smartAgentDidResolverApi =
+      new SmartAgentDidResolverApi(api.config.smartAgentDidResolverApi)
     await smartAgentDidResolverApi.initialize()
 
     // objects and values used outside initializer

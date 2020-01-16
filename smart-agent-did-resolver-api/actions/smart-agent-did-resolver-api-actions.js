@@ -1,7 +1,7 @@
 'use strict'
 const { Action, api } = require('actionhero')
 
-class SmartAgentDidResolverApiResolve extends Action {
+class SmartAgentDidResolverDidGet extends Action {
   constructor () {
     super()
     this.name = 'smart-agents/smart-agent-did-resolver/did/get/:did'
@@ -12,9 +12,55 @@ class SmartAgentDidResolverApiResolve extends Action {
     this.outputExample = { }
   }
 
-  async run ({params, response}) {
+  async run ({ params: { did }, response }) {
     try {
-      response.did = await api.smartAgentDidResolverApi.resolveDid(params.did)
+      response.did = await api.smartAgentDidResolverApi.resolveDid(did)
+      response.status = 'success'
+    } catch (ex) {
+      api.log(ex)
+      response.status = 'error'
+      response.error = ex
+    }
+  }
+}
+
+class SmartAgentDidResolverVcGet extends Action {
+  constructor () {
+    super()
+    this.name = 'smart-agents/smart-agent-did-resolver/vc/get/:vc'
+    this.description = 'Resolve a VC ID to a VC document'
+    this.inputs = {
+      vc: { required: true }
+    }
+    this.outputExample = { }
+  }
+
+  async run ({ params: { vc }, response }) {
+    try {
+      response.vc = await api.smartAgentDidResolverApi.resolveVc(vc)
+      response.status = 'success'
+    } catch (ex) {
+      api.log(ex)
+      response.status = 'error'
+      response.error = ex
+    }
+  }
+}
+
+class SmartAgentDidResolverVcCheckStatus extends Action {
+  constructor () {
+    super()
+    this.name = 'smart-agents/smart-agent-did-resolver/vc/status/:vc'
+    this.description = 'Check revokation status of VC'
+    this.inputs = {
+      vc: { required: true }
+    }
+    this.outputExample = { }
+  }
+
+  async run ({ params: { vc }, response }) {
+    try {
+      response.vcStatus = await api.smartAgentDidResolverApi.getVcStatus(vc)
       response.status = 'success'
     } catch (ex) {
       api.log(ex)
@@ -25,5 +71,6 @@ class SmartAgentDidResolverApiResolve extends Action {
 }
 
 module.exports = {
-  SmartAgentDidResolverApi: SmartAgentDidResolverApiResolve
+  SmartAgentDidResolverDidGet,
+  SmartAgentDidResolverVcGet
 }
