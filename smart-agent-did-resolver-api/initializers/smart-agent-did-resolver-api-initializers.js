@@ -56,7 +56,8 @@ module.exports = class SmartAgentDidResolverApiInitializer extends Initializer {
        * @return {Promise<string>} Status
        */
       async getVcStatus (vcId) {
-        return this.runtime.vc.getRevokeVcStatus(vcId);
+        const isRevoked = await this.runtime.vc.getRevokeVcStatus(vcId);
+        return isRevoked ? 'revoked' : 'active'
       }
     }
 
