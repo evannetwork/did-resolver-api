@@ -72,5 +72,6 @@ class SmartAgentDidResolverVcCheckStatus extends Action {
 
 module.exports = {
   SmartAgentDidResolverDidGet,
-  SmartAgentDidResolverVcGet
+  SmartAgentDidResolverVcGet,
+  SmartAgentDidResolverVcCheckStatus,
 }
